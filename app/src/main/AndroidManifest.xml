@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <application
+        android:name=".AttendanceApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SmartAttendance"
+        android:usesCleartextTraffic="true">
+
+        <!-- Login Activity -->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Home Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- Attendance Activity -->
+        <activity
+            android:name=".ui.attendance.AttendanceActivity"
+            android:exported="false" />
+
+        <!-- Face Verification Activity -->
+        <activity
+            android:name=".ui.attendance.FaceVerificationActivity"
+            android:exported="false" />
+
+        <!-- Attendance History Activity -->
+        <activity
+            android:name=".ui.history.AttendanceHistoryActivity"
+            android:exported="false" />
+
+        <!-- Break Activity -->
+        <activity
+            android:name=".ui.breaktime.BreakActivity"
+            android:exported="false" />
+
+        <!-- Business Trip Activity -->
+        <activity
+            android:name=".ui.businesstrip.BusinessTripActivity"
+            android:exported="false" />
+
+        <!-- Leave Activity -->
+        <activity
+            android:name=".ui.leave.LeaveActivity"
+            android:exported="false" />
+
+        <!-- Profile Activity -->
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false" />
+
+        <!-- Profile Detail Activity -->
+        <activity
+            android:name=".ui.profile.ProfileDetailActivity"
+            android:exported="false" />
+
+        <!-- Notification Activity -->
+        <activity
+            android:name=".ui.notification.NotificationActivity"
+            android:exported="false" />
+
+        <!-- Request Activities -->
+        <activity android:name=".ui.request.RequestMenuActivity" android:exported="false" />
+        <activity android:name=".ui.request.LeaveRequestActivity" android:exported="false" />
+        <activity android:name=".ui.request.OvertimeRequestActivity" android:exported="false" />
+        <activity android:name=".ui.request.ResignRequestActivity" android:exported="false" />
+        <activity android:name=".ui.request.RequestHistoryActivity" android:exported="false" />
+        <activity android:name=".ui.request.RequestDetailActivity" android:exported="false" />
+
+        <!-- Approval Activities -->
+        <activity android:name=".ui.approval.ApprovalMenuActivity" android:exported="false" />
+        <activity android:name=".ui.approval.ApprovalListActivity" android:exported="false" />
+        <activity android:name=".ui.approval.ApprovalHistoryActivity" android:exported="false" />
+        <activity android:name=".ui.approval.ApprovalDetailActivity" android:exported="false" />
+
+        <!-- Payroll Activities -->
+        <activity android:name=".ui.payroll.PayrollMenuActivity" android:exported="false" />
+        <activity android:name=".ui.payroll.TimesheetActivity" android:exported="false" />
+        <activity android:name=".ui.payroll.PayslipActivity" android:exported="false" />
+
+        <!-- Attendance Extra Activities -->
+        <activity android:name=".ui.attendance.InOutDataActivity" android:exported="false" />
+        <activity android:name=".ui.attendance.GpsAttendanceActivity" android:exported="false" />
+
+        <!-- Attendance Monitoring Service -->
+        <service
+            android:name=".service.AttendanceMonitoringService"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

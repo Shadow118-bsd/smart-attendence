@@ -1,0 +1,74 @@
+package com.example.attendance.utils;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+public class SessionManager {
+    private static final String PREF_NAME = "SmartAttendancePrefs";
+    private static final String KEY_ACCESS_TOKEN = "access_token";
+    private static final String KEY_REFRESH_TOKEN = "refresh_token";
+    private static final String KEY_IS_LOGGED_IN = "is_logged_in";
+    private static final String KEY_CURRENT_SESSION_ID = "current_session_id";
+    private static final String KEY_USER_NAME = "user_name";
+    private static final String KEY_EMPLOYEE_ID = "employee_id";
+
+    private final SharedPreferences prefs;
+
+    private static final String KEY_DEVICE_ID = "device_id";
+
+    public SessionManager(Context context) {
+        this.prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+    }
+
+    public String getDeviceId() {
+        String deviceId = prefs.getString(KEY_DEVICE_ID, null);
+        if (deviceId == null || deviceId.isEmpty()) {
+            deviceId = java.util.UUID.randomUUID().toString();
+            prefs.edit().putString(KEY_DEVICE_ID, deviceId).apply();
+        }
+        return deviceId;
+    }
+
+    public void saveAuthToken(String accessToken, String refreshToken) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_ACCESS_TOKEN, accessToken);
+        editor.putString(KEY_REFRESH_TOKEN, refreshToken);
+        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.apply();
+    }
+
+    public String getAccessToken() {
+        return prefs.getString(KEY_ACCESS_TOKEN, null);
+    }
+
+    public boolean isLoggedIn() {
+        return prefs.getBoolean(KEY_IS_LOGGED_IN, false);
+    }
+
+    public void saveCurrentSessionId(String sessionId) {
+        prefs.edit().putString(KEY_CURRENT_SESSION_ID, sessionId).apply();
+    }
+
+    public String getCurrentSessionId() {
+        return prefs.getString(KEY_CURRENT_SESSION_ID, null);
+    }
+
+    public void saveUserInfo(String employeeId, String name) {
+        prefs.edit()
+                .putString(KEY_EMPLOYEE_ID, employeeId)
+                .putString(KEY_USER_NAME, name)
+                .apply();
+    }
+
+    public String getUserName() {
+        return prefs.getString(KEY_USER_NAME, "Nhân viên");
+    }
+
+    public String getEmployeeId() {
+        return prefs.getString(KEY_EMPLOYEE_ID, "");
+    }
+
+    public void clear() {
+        prefs.edit().clear().apply();
+    }
+}

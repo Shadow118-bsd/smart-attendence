@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Smart Attendance</string>
+    <string name="login">Đăng nhập</string>
+    <string name="username">Tên đăng nhập / Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="check_in">CHECK-IN</string>
+    <string name="check_out">CHECK-OUT</string>
+    <string name="start_break">Bắt đầu nghỉ trưa</string>
+    <string name="end_break">Kết thúc nghỉ trưa</string>
+    <string name="business_trip">Đăng ký công tác</string>
+    <string name="leave">Đăng ký nghỉ phép</string>
+    <string name="history">Lịch sử chấm công</string>
+    <string name="profile">Thông tin cá nhân</string>
+    <string name="notifications">Thông báo</string>
+</resources>

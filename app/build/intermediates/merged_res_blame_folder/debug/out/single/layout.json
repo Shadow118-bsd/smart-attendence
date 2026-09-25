@@ -1,0 +1,158 @@
+[
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_profile.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\item_notification.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\item_notification.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_payslip.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_payslip.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_attendance.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_attendance.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_approval_list.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_approval_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_resign_request.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_resign_request.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_business_trip.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_business_trip.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\fragment_directory.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\fragment_directory.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_payroll_menu.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_payroll_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_attendance_history.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_attendance_history.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_request_menu.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_request_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\item_directory.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\item_directory.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\dialog_attendance_error.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\dialog_attendance_error.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_break.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_break.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_approval_menu.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_approval_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_in_out_data.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_in_out_data.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\item_approval_history.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\item_approval_history.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_request_history.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_request_history.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\item_request_history.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\item_request_history.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_profile_detail.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_profile_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_approval_detail.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_approval_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\fragment_home.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\fragment_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_approval_history.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_approval_history.xml"
+    },
+    {
+        "merged": "com.example.attendance.app-mergeDebugResources-43:/layout/dialog_temporary_out.xml",
+        "source": "com.example.attendance.app-main-46:/layout/dialog_temporary_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_leave.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_leave.xml"
+    },
+    {
+        "merged": "com.example.attendance.app-mergeDebugResources-43:/layout/fragment_home.xml",
+        "source": "com.example.attendance.app-main-46:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\fragment_profile_tab.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\fragment_profile_tab.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_face_verification.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_face_verification.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\dialog_face_photo_preview.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\dialog_face_photo_preview.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_overtime_request.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_overtime_request.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\item_in_out_record.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\item_in_out_record.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\dialog_attendance_ticket.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\dialog_attendance_ticket.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_timesheet.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_timesheet.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_request_detail.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_request_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_gps_attendance.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_gps_attendance.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_leave_request.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_leave_request.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-mergeDebugResources-43:\\layout\\activity_notification.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\8.5\\com.example.attendance.app-main-46:\\layout\\activity_notification.xml"
+    }
+]
