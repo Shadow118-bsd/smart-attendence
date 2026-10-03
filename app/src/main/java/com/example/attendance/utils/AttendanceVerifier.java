@@ -1,7 +1,5 @@
 package com.example.attendance.utils;
 
-import android.location.Location;
-
 import com.example.attendance.data.model.request.FaceEvidence;
 import com.example.attendance.data.model.request.LocationEvidence;
 import com.example.attendance.data.model.request.WifiEvidence;
@@ -16,9 +14,9 @@ public class AttendanceVerifier {
         LIVENESS_FAILED
     }
 
-    private static final double COMPANY_LATITUDE = 10.7769;
-    private static final double COMPANY_LONGITUDE = 106.7009;
-    private static final float MAX_GEOFENCE_RADIUS_METERS = 1000.0f; // Bán kính 1km
+    private static final double DEFAULT_COMPANY_LATITUDE = 10.7769;
+    private static final double DEFAULT_COMPANY_LONGITUDE = 106.7009;
+    private static final float DEFAULT_MAX_GEOFENCE_RADIUS_METERS = 1000.0f; // Bán kính 1km
 
     public static class VerificationResult {
         private final boolean facePassed;
@@ -49,38 +47,69 @@ public class AttendanceVerifier {
         }
     }
 
+    /**
+     * Thuật toán tính khoảng cách địa lý theo công thức Haversine thuần Java.
+     * Tự chủ không phụ thuộc SDK Android Location.distanceBetween.
+     */
+    public static double calculateHaversineDistance(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371000; // Bán kính Trái Đất (mét)
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
     public static VerificationResult verify(FaceEvidence faceEvidence, LocationEvidence locationEvidence, WifiEvidence wifiEvidence) {
-        boolean wifiPassed = wifiEvidence != null && wifiEvidence.isConnected();
-        boolean gpsPassed = false;
-        float distance = 0f;
+        return verify(faceEvidence, locationEvidence, wifiEvidence, DEFAULT_COMPANY_LATITUDE, DEFAULT_COMPANY_LONGITUDE, DEFAULT_MAX_GEOFENCE_RADIUS_METERS, null);
+    }
+
+    public static VerificationResult verify(FaceEvidence faceEvidence, LocationEvidence locationEvidence, WifiEvidence wifiEvidence, double officeLat, double officeLng, float maxRadiusMeters, String approvedBssids) {
         ErrorType errorType = ErrorType.NONE;
 
+        // 1. Kiểm tra Bằng chứng Mạng Wi-Fi (Wi-Fi Evidence & BSSID Verification)
+        boolean wifiPassed = wifiEvidence != null && wifiEvidence.isConnected();
+        if (wifiPassed && approvedBssids != null && !approvedBssids.trim().isEmpty()) {
+            String currentBssid = wifiEvidence.getBssid();
+            if (currentBssid == null || currentBssid.isEmpty() || "UNKNOWN".equalsIgnoreCase(currentBssid) || !approvedBssids.contains(currentBssid)) {
+                wifiPassed = false;
+            }
+        }
         if (!wifiPassed) {
             errorType = ErrorType.WIFI_FAILED;
         }
 
-        if (locationEvidence != null && locationEvidence.isMock()) {
+        // 2. Kiểm tra Bằng chứng Vị trí GPS (GPS & Geofence Verification)
+        boolean gpsPassed = false;
+        float distance = 0f;
+
+        if (locationEvidence == null || (locationEvidence.getLatitude() == 0.0 && locationEvidence.getLongitude() == 0.0)) {
+            // Sửa lỗ hổng an ninh: Không bypass GPS khi thiếu tọa độ
             gpsPassed = false;
-            if (errorType == ErrorType.NONE) errorType = ErrorType.GPS_MOCK_DETECTED;
-        } else if (locationEvidence != null && (locationEvidence.getLatitude() != 0.0 || locationEvidence.getLongitude() != 0.0)) {
-            float[] results = new float[1];
-            Location.distanceBetween(
+            if (errorType == ErrorType.NONE) {
+                errorType = ErrorType.GPS_FAILED;
+            }
+        } else if (locationEvidence.isMock()) {
+            gpsPassed = false;
+            if (errorType == ErrorType.NONE) {
+                errorType = ErrorType.GPS_MOCK_DETECTED;
+            }
+        } else {
+            distance = (float) calculateHaversineDistance(
                     locationEvidence.getLatitude(),
                     locationEvidence.getLongitude(),
-                    COMPANY_LATITUDE,
-                    COMPANY_LONGITUDE,
-                    results
+                    officeLat,
+                    officeLng
             );
-            distance = results[0];
-            gpsPassed = distance <= MAX_GEOFENCE_RADIUS_METERS;
+            gpsPassed = distance <= maxRadiusMeters;
             if (!gpsPassed && errorType == ErrorType.NONE) {
                 errorType = ErrorType.GPS_FAILED;
             }
-        } else {
-            gpsPassed = true;
-            distance = 45.0f;
         }
 
+        // 3. Kiểm tra Bằng chứng Sinh trắc Khuôn mặt (FaceID Evidence Verification)
         boolean facePassed = faceEvidence != null && faceEvidence.isVerified();
         if (!facePassed && errorType == ErrorType.NONE) {
             if (faceEvidence != null && !faceEvidence.isLivenessPassed()) {
@@ -93,7 +122,7 @@ public class AttendanceVerifier {
         StringBuilder sb = new StringBuilder();
         sb.append("• FaceID: ").append(facePassed ? "ĐẠT" : "KHÔNG ĐẠT").append("\n");
         sb.append("• GPS: ").append(gpsPassed ? "HỢP LỆ (" + Math.round(distance) + "m)" : "KHÔNG ĐẠT").append("\n");
-        sb.append("• WiFi: ").append(wifiPassed ? "ĐÃ KẾT NỐI (" + wifiEvidence.getSsid() + ")" : "CHƯA KẾT NỐI");
+        sb.append("• WiFi: ").append(wifiPassed ? "ĐÃ KẾT NỐI (" + (wifiEvidence != null ? wifiEvidence.getSsid() : "N/A") + ")" : "CHƯA KẾT NỐI/SAI BSSID");
 
         return new VerificationResult(facePassed, gpsPassed, wifiPassed, distance, sb.toString(), errorType);
     }

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -19,17 +20,23 @@ import androidx.core.app.NotificationCompat;
 import com.example.attendance.MainActivity;
 import com.example.attendance.data.api.AttendanceApi;
 import com.example.attendance.data.api.RetrofitClient;
+import com.example.attendance.data.local.AppDatabase;
+import com.example.attendance.data.local.entity.PendingEventEntity;
 import com.example.attendance.data.model.request.HeartbeatRequest;
 import com.example.attendance.data.model.request.LocationEvidence;
 import com.example.attendance.data.model.request.WifiEvidence;
 import com.example.attendance.data.model.response.HeartbeatResponse;
 import com.example.attendance.utils.SessionManager;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,12 +50,12 @@ public class AttendanceMonitoringService extends Service {
     private static final int WARNING_NOTIFICATION_ID = 2002;
     private static final long HEARTBEAT_INTERVAL_MS = 3 * 60 * 1000; // 3 minutes
 
-    private Handler handler;
-    private Runnable heartbeatRunnable;
+    private ScheduledExecutorService scheduler;
     private WifiService wifiService;
     private LocationService locationService;
     private SessionManager sessionManager;
     private AttendanceApi attendanceApi;
+    private PowerManager.WakeLock wakeLock;
 
     public static void startService(Context context) {
         Intent intent = new Intent(context, AttendanceMonitoringService.class);
@@ -66,30 +73,34 @@ public class AttendanceMonitoringService extends Service {
 
     @Override
     public void onCreate() {
-        super.onCreate()    ;
+        super.onCreate();
         wifiService = new WifiService(this);
         locationService = new LocationService(this);
         sessionManager = new SessionManager(this);
         attendanceApi = RetrofitClient.getClient(this).create(AttendanceApi.class);
 
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (powerManager != null) {
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SmartAttendance:MonitoringWakeLock");
+        }
+
         createNotificationChannels();
         startForeground(NOTIFICATION_ID, buildForegroundNotification("Đang giám sát trạng thái có mặt"));
 
-        handler = new Handler(Looper.getMainLooper());
-        heartbeatRunnable = new Runnable() {
-            @Override
-            public void run() {
-                sendHeartbeat();
-                handler.postDelayed(this, HEARTBEAT_INTERVAL_MS);
-            }
-        };
-        handler.post(heartbeatRunnable);
+        // Sử dụng ScheduledExecutorService thay vì Handler để chạy ổn định hơn khi thiết bị Deep Sleep
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(this::sendHeartbeat, 0, HEARTBEAT_INTERVAL_MS, TimeUnit.MILLISECONDS);
     }
 
     private void sendHeartbeat() {
+        if (wakeLock != null && !wakeLock.isHeld()) {
+            wakeLock.acquire(10 * 1000L); // Giữ WakeLock trong 10 giây để thu thập dữ liệu
+        }
+
         String sessionId = sessionManager.getCurrentSessionId();
         if (sessionId == null || sessionId.isEmpty()) {
             Log.d(TAG, "No active session ID. Skipping heartbeat.");
+            releaseWakeLock();
             return;
         }
 
@@ -106,19 +117,53 @@ public class AttendanceMonitoringService extends Service {
                 attendanceApi.heartbeat(req).enqueue(new Callback<HeartbeatResponse>() {
                     @Override
                     public void onResponse(Call<HeartbeatResponse> call, Response<HeartbeatResponse> response) {
+                        releaseWakeLock();
                         if (response.isSuccessful() && response.body() != null) {
                             HeartbeatResponse res = response.body();
                             handleHeartbeatResult(res);
+                        } else {
+                            Log.w(TAG, "Heartbeat API returned non-200. Queuing to Room DB.");
+                            saveHeartbeatOffline(eventId, timestamp, req);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<HeartbeatResponse> call, Throwable t) {
-                        Log.e(TAG, "Heartbeat failed: " + t.getMessage());
+                        releaseWakeLock();
+                        Log.e(TAG, "Heartbeat network failure: " + t.getMessage() + ". Queuing to Room DB.");
+                        saveHeartbeatOffline(eventId, timestamp, req);
                     }
                 });
             }
         });
+    }
+
+    private void saveHeartbeatOffline(String eventId, String timestamp, HeartbeatRequest request) {
+        new Thread(() -> {
+            try {
+                String payloadJson = new Gson().toJson(request);
+                PendingEventEntity entity = new PendingEventEntity(
+                        eventId,
+                        "HEARTBEAT",
+                        payloadJson,
+                        timestamp,
+                        "PENDING",
+                        0
+                );
+                AppDatabase.getInstance(getApplicationContext()).pendingEventDao().insert(entity);
+                Log.d(TAG, "Successfully queued failed Heartbeat to Room DB: " + eventId);
+            } catch (Exception e) {
+                Log.e(TAG, "Error inserting failed Heartbeat into Room DB: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    private void releaseWakeLock() {
+        if (wakeLock != null && wakeLock.isHeld()) {
+            try {
+                wakeLock.release();
+            } catch (Exception ignored) { }
+        }
     }
 
     private void handleHeartbeatResult(HeartbeatResponse response) {
@@ -187,9 +232,10 @@ public class AttendanceMonitoringService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (handler != null && heartbeatRunnable != null) {
-            handler.removeCallbacks(heartbeatRunnable);
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdownNow();
         }
+        releaseWakeLock();
     }
 
     @Nullable

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.Image;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.camera.core.ImageProxy;
@@ -22,6 +21,7 @@ public class FaceService {
         FACE_VERIFIED,
         FACE_NOT_MATCHED,
         LIVENESS_FAILED,
+        FACE_POOSE_INVALID,
         FACE_NOT_DETECTED
     }
 
@@ -29,16 +29,26 @@ public class FaceService {
         private final FaceVerificationStatus status;
         private final boolean livenessPassed;
         private final String message;
+        private final float leftEyeOpenProb;
+        private final float rightEyeOpenProb;
 
         public FaceVerificationResult(FaceVerificationStatus status, boolean livenessPassed, String message) {
+            this(status, livenessPassed, message, 1.0f, 1.0f);
+        }
+
+        public FaceVerificationResult(FaceVerificationStatus status, boolean livenessPassed, String message, float leftEyeOpenProb, float rightEyeOpenProb) {
             this.status = status;
             this.livenessPassed = livenessPassed;
             this.message = message;
+            this.leftEyeOpenProb = leftEyeOpenProb;
+            this.rightEyeOpenProb = rightEyeOpenProb;
         }
 
         public FaceVerificationStatus getStatus() { return status; }
         public boolean isLivenessPassed() { return livenessPassed; }
         public String getMessage() { return message; }
+        public float getLeftEyeOpenProb() { return leftEyeOpenProb; }
+        public float getRightEyeOpenProb() { return rightEyeOpenProb; }
     }
 
     public interface FaceCallback {
@@ -52,7 +62,7 @@ public class FaceService {
                 .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
                 .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
                 .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-                .setMinFaceSize(0.1f)
+                .setMinFaceSize(0.15f)
                 .build();
         this.detector = FaceDetection.getClient(options);
     }
@@ -80,6 +90,9 @@ public class FaceService {
         processInputImage(image, () -> {}, callback);
     }
 
+    /**
+     * Nâng cấp thuật toán phân tích Sinh trắc học & Tư thế góc mặt (Face Pose & Multi-factor Liveness).
+     */
     private void processInputImage(InputImage image, Runnable onComplete, FaceCallback callback) {
         detector.process(image)
                 .addOnSuccessListener(faces -> {
@@ -93,15 +106,31 @@ public class FaceService {
                         return;
                     }
 
-                    // Phân tích Passive Liveness cho khuôn mặt thực tế
                     Face face = faces.get(0);
                     Float leftEye = face.getLeftEyeOpenProbability();
                     Float rightEye = face.getRightEyeOpenProbability();
+                    float headEulerY = face.getHeadEulerAngleY(); // Xoay trái/phải
+                    float headEulerZ = face.getHeadEulerAngleZ(); // Nghiêng đầu
 
+                    float leftProb = leftEye != null ? leftEye : 1.0f;
+                    float rightProb = rightEye != null ? rightEye : 1.0f;
+
+                    // 1. Kiểm tra góc xoay đầu (Head Pose Angle Check): Không nghiêng quá 30 độ
+                    if (Math.abs(headEulerY) > 30.0f || Math.abs(headEulerZ) > 30.0f) {
+                        callback.onFaceAnalyzed(new FaceVerificationResult(
+                                FaceVerificationStatus.FACE_POOSE_INVALID,
+                                false,
+                                "Vui lòng giữ thẳng khuôn mặt hướng trực diện vào ống kính.",
+                                leftProb,
+                                rightProb
+                        ));
+                        return;
+                    }
+
+                    // 2. Phân tích Trạng thái Mắt (Eye Open / Blink Analysis)
                     boolean livenessPassed = true;
-                    String message = "Xác thực khuôn mặt thành công!";
+                    String message = "Xác thực sinh trắc khuôn mặt thành công!";
 
-                    // Nếu thiết bị hỗ trợ Eye Classification, kiểm tra mắt có mở không
                     if (leftEye != null && rightEye != null) {
                         if (leftEye < 0.2f && rightEye < 0.2f) {
                             livenessPassed = false;
@@ -113,13 +142,17 @@ public class FaceService {
                         callback.onFaceAnalyzed(new FaceVerificationResult(
                                 FaceVerificationStatus.FACE_VERIFIED,
                                 true,
-                                message
+                                message,
+                                leftProb,
+                                rightProb
                         ));
                     } else {
                         callback.onFaceAnalyzed(new FaceVerificationResult(
                                 FaceVerificationStatus.LIVENESS_FAILED,
                                 false,
-                                message
+                                message,
+                                leftProb,
+                                rightProb
                         ));
                     }
                 })

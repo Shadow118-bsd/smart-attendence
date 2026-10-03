@@ -68,6 +68,36 @@ public class SessionManager {
         return prefs.getString(KEY_EMPLOYEE_ID, "");
     }
 
+    private static final String KEY_OFFICE_LAT = "office_latitude";
+    private static final String KEY_OFFICE_LNG = "office_longitude";
+    private static final String KEY_GEOFENCE_RADIUS = "geofence_radius";
+    private static final String KEY_APPROVED_BSSIDS = "approved_bssids";
+
+    public void saveWorkplaceConfig(double lat, double lng, float radiusMeters, String approvedBssids) {
+        prefs.edit()
+                .putFloat(KEY_OFFICE_LAT, (float) lat)
+                .putFloat(KEY_OFFICE_LNG, (float) lng)
+                .putFloat(KEY_GEOFENCE_RADIUS, radiusMeters)
+                .putString(KEY_APPROVED_BSSIDS, approvedBssids)
+                .apply();
+    }
+
+    public double getOfficeLatitude() {
+        return prefs.getFloat(KEY_OFFICE_LAT, 10.7769f);
+    }
+
+    public double getOfficeLongitude() {
+        return prefs.getFloat(KEY_OFFICE_LNG, 106.7009f);
+    }
+
+    public float getGeofenceRadius() {
+        return prefs.getFloat(KEY_GEOFENCE_RADIUS, 1000.0f);
+    }
+
+    public String getApprovedBssids() {
+        return prefs.getString(KEY_APPROVED_BSSIDS, "");
+    }
+
     public void clear() {
         prefs.edit().clear().apply();
     }
