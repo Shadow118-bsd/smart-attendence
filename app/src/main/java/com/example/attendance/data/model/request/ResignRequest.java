@@ -36,4 +36,7 @@ public class ResignRequest {
 
     public boolean isCommitted() { return isCommitted; }
     public void setCommitted(boolean committed) { isCommitted = committed; }
+
+    public String getResignDate() { return effectiveDate; }
+    public String getReason() { return resignReason; }
 }

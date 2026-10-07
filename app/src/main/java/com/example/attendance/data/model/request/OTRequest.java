@@ -51,4 +51,11 @@ public class OTRequest {
 
     public String getReasonDetail() { return reasonDetail; }
     public void setReasonDetail(String reasonDetail) { this.reasonDetail = reasonDetail; }
+
+    public String getOtShift() {
+        if (shiftName != null && !shiftName.isEmpty()) {
+            return shiftName;
+        }
+        return (startTime != null ? startTime : "") + " - " + (endTime != null ? endTime : "");
+    }
 }

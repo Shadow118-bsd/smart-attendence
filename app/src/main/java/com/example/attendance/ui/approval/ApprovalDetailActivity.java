@@ -86,7 +86,7 @@ public class ApprovalDetailActivity extends AppCompatActivity {
 
             binding.tvApprovalStatus.setText(item.getStatus() != null ? item.getStatus() : "Đã duyệt");
             if ("Từ chối".equalsIgnoreCase(item.getStatus())) {
-                binding.tvApprovalStatus.setTextColor(ContextCompat.getColor(this, R.color.error));
+                binding.tvApprovalStatus.setTextColor(ContextCompat.getColor(this, R.color.danger));
             } else {
                 binding.tvApprovalStatus.setTextColor(ContextCompat.getColor(this, R.color.success));
             }

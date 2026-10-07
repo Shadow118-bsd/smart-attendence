@@ -14,6 +14,15 @@ public class RequestHistoryItem {
 
     public RequestHistoryItem() {}
 
+    public RequestHistoryItem(String id, String title, String date, String reason, String status, String approvalDate) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.reason = reason;
+        this.status = status;
+        this.approvalDate = approvalDate;
+    }
+
     public RequestHistoryItem(String id, String title, String status, String date, String reason, String detailReason, String otShift, String approverName, String approverRole, String approvalDate) {
         this.id = id;
         this.title = title;
