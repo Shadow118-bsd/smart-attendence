@@ -33,8 +33,16 @@ public class LoginActivity extends AppCompatActivity {
         setupObservers();
 
         binding.btnLogin.setOnClickListener(v -> {
-            String username = binding.etUsername.getText() != null ? binding.etUsername.getText().toString() : "";
-            String password = binding.etPassword.getText() != null ? binding.etPassword.getText().toString() : "";
+            String username = binding.etUsername.getText() != null ? binding.etUsername.getText().toString().trim() : "";
+            String password = binding.etPassword.getText() != null ? binding.etPassword.getText().toString().trim() : "";
+            if (username.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập tên đăng nhập!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (password.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập mật khẩu!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             viewModel.login(username, password);
         });
     }

@@ -16,6 +16,11 @@ public class LeaveActivity extends AppCompatActivity {
         binding = ActivityLeaveBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Xin nghỉ phép");
+        }
+
         binding.btnSubmitLeave.setOnClickListener(v -> {
             String reason = binding.etLeaveReason.getText() != null ? binding.etLeaveReason.getText().toString() : "";
             if (reason.trim().isEmpty()) {
@@ -25,5 +30,11 @@ public class LeaveActivity extends AppCompatActivity {
             Toast.makeText(this, "Đã gửi đơn xin nghỉ phép (Trạng thái: PENDING)", Toast.LENGTH_LONG).show();
             finish();
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

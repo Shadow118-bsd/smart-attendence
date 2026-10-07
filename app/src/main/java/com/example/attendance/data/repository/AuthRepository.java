@@ -55,11 +55,25 @@ public class AuthRepository {
                 UserResponse devUser = new UserResponse();
                 devUser.setId("EMP001");
                 devUser.setEmployeeId("NV8888");
-                devUser.setFullName("Nhân Viên Thử Nghiệm");
                 devUser.setEmail(username);
                 devUser.setDepartment("Phòng Công Nghệ");
-                devUser.setPosition("Kỹ sư phần mềm");
                 devUser.setWorkplaceName("Văn phòng FPT Tower");
+
+                String lowerUser = username != null ? username.toLowerCase().trim() : "";
+                if (lowerUser.contains("manager") || lowerUser.contains("admin") || lowerUser.contains("quanly")) {
+                    devUser.setRole("MANAGER");
+                    devUser.setFullName("Quản Lý Nguyễn Văn Trưởng");
+                    devUser.setPosition("Trưởng phòng Quản lý");
+                } else if (lowerUser.contains("hr")) {
+                    devUser.setRole("HR");
+                    devUser.setFullName("Chuyên viên Nhân sự (HR)");
+                    devUser.setPosition("Chuyên viên Quản lý Nhân sự");
+                } else {
+                    devUser.setRole("EMPLOYEE");
+                    devUser.setFullName("Nhân Viên Thử Nghiệm");
+                    devUser.setPosition("Kỹ sư phần mềm");
+                }
+
                 fallbackRes.setUser(devUser);
 
                 saveLoginSession(fallbackRes);
@@ -71,9 +85,14 @@ public class AuthRepository {
     private void saveLoginSession(LoginResponse loginResponse) {
         sessionManager.saveAuthToken(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
         if (loginResponse.getUser() != null) {
+            String role = loginResponse.getUser().getRole();
+            if (role == null || role.isEmpty()) {
+                role = "EMPLOYEE";
+            }
             sessionManager.saveUserInfo(
                     loginResponse.getUser().getEmployeeId(),
-                    loginResponse.getUser().getFullName()
+                    loginResponse.getUser().getFullName(),
+                    role
             );
         }
     }

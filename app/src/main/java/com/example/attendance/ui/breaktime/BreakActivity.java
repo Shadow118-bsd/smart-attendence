@@ -16,6 +16,11 @@ public class BreakActivity extends AppCompatActivity {
         binding = ActivityBreakBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Quản lý nghỉ trưa");
+        }
+
         binding.btnStartBreak.setOnClickListener(v -> {
             Toast.makeText(this, "Đã gửi yêu cầu Bắt đầu nghỉ trưa!", Toast.LENGTH_SHORT).show();
             finish();
@@ -25,5 +30,11 @@ public class BreakActivity extends AppCompatActivity {
             Toast.makeText(this, "Đã gửi yêu cầu Kết thúc nghỉ trưa!", Toast.LENGTH_SHORT).show();
             finish();
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

@@ -133,6 +133,28 @@ Dưới đây là các mục cần đối soát và kiểm thử tích hợp li�
 | **02/10/2026** | **v2.1.1** | **Phase 1 Refactoring:** Sửa lỗ hổng bypass GPS khi tắt vị trí, thêm thuật toán Haversine Distance, đối soát BSSID Wi-Fi và Dynamic Geofence Config. | ✅ Đã cập nhật & khớp 100% với `docs/` |
 | **02/10/2026** | **v2.2.0** | **Phase 2 Refactoring:** Thuật toán Fake GPS 4 tầng (Teleportation Anomaly Check) & Kiểm tra góc xoay diện chẩn khuôn mặt Head Euler Pose Angle trong MLKit. | ✅ Đã cập nhật & khớp 100% với `docs/` |
 | **02/10/2026** | **v2.3.0** | **Phase 3 Refactoring:** Tự động chèn Heartbeat thất bại vào Room DB Offline Queue & Tối ưu Doze Mode với ScheduledExecutorService & Partial WakeLock. | ✅ Đã cập nhật & khớp 100% với `docs/` |
+| **07/10/2026** | **v2.4.0** | **Module 2 (Member 2 - Khôi):** Hoàn thiện phân hệ Xác thực Phân quyền (RBAC SessionManager), Quản lý đơn từ (Leave/OT/Resign), Phân hệ Phê duyệt quản lý (ApprovalList, ApprovalDetail có AlertDialog Duyệt/Từ chối), Bảng công lương (Timesheet & Payslip). Tuân thủ 100% bài giảng môn học. | ✅ Đã hoàn thiện trên branch `Module-2-Khoi` |
+
+---
+
+## 7. Module 2 Implementation Summary (Member 2 - Khôi)
+
+1. **Sprint 1: Authentication & RBAC (SharedPreferences - Chương 5)**:
+   * Hỗ trợ lưu trữ Role: `EMPLOYEE`, `MANAGER`, `HR`, `ADMIN` trong `SessionManager`.
+   * Tự động nhận diện quyền và lưu phiên đăng nhập từ `AuthRepository`.
+   * Bắt lỗi form đăng nhập trong `LoginActivity` bằng `Toast` (Chương 3).
+2. **Sprint 4: Requests & Workflow (Chương 2, 3)**:
+   * `LeaveRequestActivity`, `OvertimeRequestActivity`, `ResignRequestActivity`: Tạo và gửi đơn có `DatePickerDialog`, `TimePickerDialog`, `Spinner`.
+   * `RequestRepository`: Tự động lưu và cập nhật danh sách đơn vào lịch sử `RequestHistoryActivity`.
+3. **Sprint 5: Approval Management (Chương 2, 3)**:
+   * `ApprovalMenuActivity`: 5 phân loại duyệt đơn.
+   * `ApprovalListActivity`: `RecyclerView` + `ApprovalListAdapter` hiển thị đơn chờ duyệt `item_approval_pending.xml`.
+   * `ApprovalDetailActivity`: Xem chi tiết đơn, hỗ trợ 2 nút **[ Phê duyệt ]** (kèm `AlertDialog` xác nhận) và **[ Từ chối ]** (kèm `AlertDialog` nhập lý do).
+   * `ApprovalHistoryActivity`: Xem lịch sử duyệt đơn theo bộ lọc Năm/Tháng bằng `Spinner`.
+   * `ApprovalRepository` & `ApprovalViewModel`: Toàn bộ logic API và local cache offline.
+4. **Sprint 7: Payroll & Timesheet (Chương 3)**:
+   * `TimesheetActivity` & `PayslipActivity`: Hiển thị bảng công và phiếu lương với bộ lọc Năm/Tháng.
+
 
 
 

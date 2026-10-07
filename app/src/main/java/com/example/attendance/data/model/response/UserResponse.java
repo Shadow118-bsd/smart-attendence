@@ -8,6 +8,7 @@ public class UserResponse {
     private String department;
     private String position;
     private String workplaceName;
+    private String role; // e.g. "EMPLOYEE", "MANAGER", "HR", "ADMIN"
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -29,4 +30,7 @@ public class UserResponse {
 
     public String getWorkplaceName() { return workplaceName; }
     public void setWorkplaceName(String workplaceName) { this.workplaceName = workplaceName; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }

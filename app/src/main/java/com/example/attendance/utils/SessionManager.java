@@ -53,10 +53,17 @@ public class SessionManager {
         return prefs.getString(KEY_CURRENT_SESSION_ID, null);
     }
 
+    private static final String KEY_USER_ROLE = "user_role";
+
     public void saveUserInfo(String employeeId, String name) {
+        saveUserInfo(employeeId, name, "EMPLOYEE");
+    }
+
+    public void saveUserInfo(String employeeId, String name, String role) {
         prefs.edit()
                 .putString(KEY_EMPLOYEE_ID, employeeId)
                 .putString(KEY_USER_NAME, name)
+                .putString(KEY_USER_ROLE, role)
                 .apply();
     }
 
@@ -66,6 +73,15 @@ public class SessionManager {
 
     public String getEmployeeId() {
         return prefs.getString(KEY_EMPLOYEE_ID, "");
+    }
+
+    public String getUserRole() {
+        return prefs.getString(KEY_USER_ROLE, "EMPLOYEE");
+    }
+
+    public boolean isManager() {
+        String role = getUserRole();
+        return "MANAGER".equalsIgnoreCase(role) || "HR".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role);
     }
 
     private static final String KEY_OFFICE_LAT = "office_latitude";

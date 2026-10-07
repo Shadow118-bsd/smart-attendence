@@ -16,6 +16,11 @@ public class BusinessTripActivity extends AppCompatActivity {
         binding = ActivityBusinessTripBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Đăng ký công tác");
+        }
+
         binding.btnSubmitTrip.setOnClickListener(v -> {
             String location = binding.etLocation.getText() != null ? binding.etLocation.getText().toString() : "";
             if (location.trim().isEmpty()) {
@@ -25,5 +30,11 @@ public class BusinessTripActivity extends AppCompatActivity {
             Toast.makeText(this, "Đã gửi đơn công tác thành công (Trạng thái: PENDING)", Toast.LENGTH_LONG).show();
             finish();
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
